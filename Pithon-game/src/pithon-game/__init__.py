@@ -4,12 +4,15 @@ from core2.Part import Part
 
 pygame.init()
 pygame.display.set_caption("Pithon")
-screen=pygame.display.set_mode((800,600)) 
+screen=pygame.display.set_mode((800,600))
 
 snake=Snake()
 
 while True:
     for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
         if event.type==pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 snake.change_direction(core2.constants.UP)
