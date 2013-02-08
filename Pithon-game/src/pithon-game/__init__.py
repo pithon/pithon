@@ -6,14 +6,10 @@ import random
 
 pygame.init()
 pygame.display.set_caption("Pithon")
-screen=pygame.display.set_mode((800,600))
-
-<<<<<<< HEAD
+screen=pygame.display.set_mode((core2.constants.SCREEN_WIDTH,core2.constants.SCREEN_HEIGHT))
 snake=Snake("Just A Test Name")
-=======
 snake=Snake(screen)
 foods = pygame.sprite.Group()
->>>>>>> 9be1a8834d56f4d05b4708107c6f64ffa30872f8
 
 while True:
     for event in pygame.event.get():
@@ -32,7 +28,8 @@ while True:
             if event.key == pygame.K_SPACE:
                 snake.do_extend = True
     while len(foods) < core2.constants.MAX_FOOD:
-        foods.add(Food(x=random.choice(range(screen.get_width())), y=random.choice(range(screen.get_height()))))
+        foods.add(Food(x=random.choice(range(core2.constants.SCREEN_WIDTH)),
+                        y=random.choice(range(core2.constants.SCREEN_HEIGHT))))
 
     for food in pygame.sprite.spritecollide(snake.parts.sprites()[0], foods, dokill=True):
         snake.update()

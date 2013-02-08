@@ -1,17 +1,10 @@
 import pygame, constants
 from Part import Part
 class Snake:
-<<<<<<< HEAD
-    def __init__(self, name, x=0, y=0, color=pygame.color.Color(0,255,0)):
-        self.color=color
+    def __init__(self, name, x=0, y=0, image='core2/img/Part.bmp'):
         self.name=name
-        head=Part(self.color, x, y)
-=======
-    def __init__(self, screen, x=0, y=0, image='img/Part.bmp'):
-        self.screen = screen
         self.image=image
         head=Part(self.image, x, y)
->>>>>>> 9be1a8834d56f4d05b4708107c6f64ffa30872f8
         self.direction=constants.RIGHT
         self.parts=pygame.sprite.OrderedUpdates(head)
         self.do_extend = False
@@ -34,11 +27,11 @@ class Snake:
 
         if y < 0:
             self.hit_border = True
-        elif y + constants.BLOCK_SIZE > self.screen.get_height():
+        elif y + constants.BLOCK_SIZE > constants.SCREEN_HEIGHT:
             self.hit_border = True
         elif x < 0:
             self.hit_border = True
-        elif x + constants.BLOCK_SIZE > self.screen.get_width():
+        elif x + constants.BLOCK_SIZE > constants.SCREEN_WIDTH:
             self.hit_border = True
 
         if self.hit_border:
