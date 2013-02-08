@@ -28,11 +28,12 @@ while True:
             if event.key == pygame.K_SPACE:
                 snake.do_extend = True
     while len(foods) < core2.constants.MAX_FOOD:
-        foods.add(Food(random.choice(range(screen.get_width())), random.choice(range(screen.get_height()))))
+        foods.add(Food(x=random.choice(range(screen.get_width())), y=random.choice(range(screen.get_height()))))
 
     for food in pygame.sprite.spritecollide(snake.parts.sprites()[0], foods, dokill=True):
         snake.update()
         snake.do_extend = True
+        print len(snake.parts)
 
     collided = pygame.sprite.groupcollide(snake.parts, snake.parts, False, False)
     for key in collided:

@@ -27,11 +27,11 @@ class Snake:
 
         if y < 0:
             self.hit_border = True
-        elif y > self.screen.get_height():
-            self.git_border = True
+        elif y + constants.BLOCK_SIZE > self.screen.get_height():
+            self.hit_border = True
         elif x < 0:
             self.hit_border = True
-        elif x > self.screen.get_height():
+        elif x + constants.BLOCK_SIZE > self.screen.get_width():
             self.hit_border = True
 
         if self.hit_border:
