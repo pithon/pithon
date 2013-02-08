@@ -1,8 +1,9 @@
 import pygame, constants
 from Part import Part
 class Snake:
-    def __init__(self, x=0, y=0, color=pygame.color.Color(0,255,0)):
+    def __init__(self, name, x=0, y=0, color=pygame.color.Color(0,255,0)):
         self.color=color
+        self.name=name
         head=Part(self.color, x, y)
         self.direction=constants.RIGHT
         self.parts=[head]

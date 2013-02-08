@@ -6,7 +6,7 @@ pygame.init()
 pygame.display.set_caption("Pithon")
 screen=pygame.display.set_mode((800,600))
 
-snake=Snake()
+snake=Snake("Just A Test Name")
 
 while True:
     for event in pygame.event.get():
