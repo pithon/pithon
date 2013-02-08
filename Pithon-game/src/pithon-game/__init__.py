@@ -29,10 +29,8 @@ while True:
                 snake.do_extend = True
     while len(foods) < core2.constants.MAX_FOOD:
         foods.add(Food(random.choice(range(screen.get_width())), random.choice(range(screen.get_height()))))
-        print "Added food"
 
     for food in pygame.sprite.spritecollide(snake.parts.sprites()[0], foods, dokill=True):
-        print "Collision"
         snake.update()
         snake.do_extend = True
 

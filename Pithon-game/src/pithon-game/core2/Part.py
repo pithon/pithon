@@ -1,10 +1,9 @@
 import pygame, constants
 class Part(pygame.sprite.Sprite):
-    def __init__(self, color, x=0, y=0, direction=constants.RIGHT, *groups):
+    def __init__(self, image, x=0, y=0, direction=constants.RIGHT, *groups):
         pygame.sprite.Sprite.__init__(self, *groups)
         self.direction=direction
-        self.image=pygame.surface.Surface((constants.BLOCK_SIZE, constants.BLOCK_SIZE))
-        self.image.fill(color)
+        self.image=pygame.image.load(image)
         self.rect=self.image.get_rect().move(x,y)
     def change_direction(self, direction):
         self.direction=direction
