@@ -10,7 +10,8 @@ class Snake:
         self.do_extend = False
 
     def change_direction(self, direction):
-        self.direction=direction
+        if direction in constants.VALID_DIRECTIONS[self.direction]:
+            self.direction=direction
 
     def update(self):
         new_direction=self.direction
