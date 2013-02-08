@@ -36,6 +36,13 @@ while True:
         snake.update()
         snake.do_extend = True
 
+    collided = pygame.sprite.groupcollide(snake.parts, snake.parts, False, False)
+    for key in collided:
+        if not collided[key] == [key]:
+            print "You lose!"
+            pygame.quit()
+            quit()
+
 
     screen.fill((0,0,0))
     snake.update()
