@@ -8,7 +8,6 @@ pygame.init()
 pygame.display.set_caption("Pithon")
 screen=pygame.display.set_mode((core2.constants.SCREEN_WIDTH,core2.constants.SCREEN_HEIGHT))
 snake=Snake("Just A Test Name")
-snake=Snake(screen)
 foods = pygame.sprite.Group()
 
 while True:
