@@ -1,12 +1,15 @@
 import pygame, time, core2.constants
 from core2.Snake import Snake
 from core2.Part import Part
+from core2.Food import Food
+import random
 
 pygame.init()
 pygame.display.set_caption("Pithon")
 screen=pygame.display.set_mode((800,600))
 
-snake=Snake()
+snake=Snake(screen)
+foods = pygame.sprite.Group()
 
 while True:
     for event in pygame.event.get():
@@ -23,9 +26,20 @@ while True:
             if event.key == pygame.K_RIGHT:
                 snake.change_direction(core2.constants.RIGHT)
             if event.key == pygame.K_SPACE:
-                snake.do_extend=True
+                snake.do_extend = True
+    while len(foods) < core2.constants.MAX_FOOD:
+        foods.add(Food(random.choice(range(screen.get_width())), random.choice(range(screen.get_height()))))
+        print "Added food"
+
+    for food in pygame.sprite.spritecollide(snake.parts.sprites()[0], foods, dokill=True):
+        print "Collision"
+        snake.update()
+        snake.do_extend = True
+
+
     screen.fill((0,0,0))
-    snake.move()
-    snake.draw(screen)
+    snake.update()
+    snake.parts.draw(screen)
+    foods.draw(screen)
     pygame.display.update()
     pygame.time.delay(100)
