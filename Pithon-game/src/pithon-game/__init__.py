@@ -41,6 +41,11 @@ while True:
             pygame.quit()
             quit()
 
+    if snake.hit_border:
+        print "You lose!"
+        pygame.quit()
+        quit()
+
 
     screen.fill((0,0,0))
     snake.update()
