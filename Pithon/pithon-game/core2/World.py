@@ -39,8 +39,13 @@ class World:
         return self.foods
 
 
-def draw_world(world):
+def draw_world(world, screen):
     for k in world.get_players():
         player=world.get_players()[k]
+<<<<<<< HEAD
+        player.parts.draw(screen)
+    world.get_foods().draw(screen)
+=======
         player.parts.draw(pygame.display.get_surface())
     world.get_foods().draw(pygame.display.get_surface())
+>>>>>>> 8655a588e9b605ab2c763febc1560bfe67c7f392
