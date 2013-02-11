@@ -25,6 +25,6 @@ while True:
                 world.set_player_direction("singleplayersnake",constants.RIGHT)
     screen.fill((0,0,0))
     world.update_world()
-    World.draw_world(world)
+    World.draw_world(world, screen)
     pygame.display.flip()
     time.sleep(0.1)

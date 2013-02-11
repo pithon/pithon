@@ -26,10 +26,12 @@ class World:
             collided = pygame.sprite.groupcollide(snake.parts, snake.parts, False, False)
             for key in collided:
                 if not collided[key] == [key]:
-                    print "You lose!"
+                    print k+" died!"
+                    self.remove_player(k)
 
             if snake.hit_border:
-                print "You lose!"
+                print k+" died!"
+                self.remove_player(k)
 
         while len(self.foods) < constants.MAX_FOOD:
             self.foods.add(Food.Food(x=random.choice(range(constants.SCREEN_WIDTH)),
@@ -42,10 +44,6 @@ class World:
 def draw_world(world, screen):
     for k in world.get_players():
         player=world.get_players()[k]
-<<<<<<< HEAD
-        player.parts.draw(screen)
-    world.get_foods().draw(screen)
-=======
-        player.parts.draw(pygame.display.get_surface())
-    world.get_foods().draw(pygame.display.get_surface())
->>>>>>> 8655a588e9b605ab2c763febc1560bfe67c7f392
+        for part in player.get_parts():
+            pygame.draw.rect(screen, part.color, part.rect)
+    #local_draw_spritegroup(world.get_foods(), screen
