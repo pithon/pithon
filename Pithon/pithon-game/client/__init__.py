@@ -16,6 +16,12 @@ world=Pyro4.Proxy("PYRO:WORLD@"+ip+":"+port)
 world.add_player(Snake.Snake(name, color=color))
 
 while True:
+    
+    if not name in world.get_players().keys():
+        print "Game Over"
+        pygame.quit()
+        quit()
+    
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
             if event.key == pygame.K_UP:
@@ -26,8 +32,13 @@ while True:
                 world.set_player_direction(name,constants.LEFT)
             if event.key == pygame.K_RIGHT:
                 world.set_player_direction(name,constants.RIGHT)
+    
+    
+    
     screen.fill((0,0,0))
     World.draw_world(world, screen)
+    
+    
     
     pygame.display.flip()
     time.sleep(0.1)
