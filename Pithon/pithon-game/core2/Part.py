@@ -4,7 +4,7 @@ class Part(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, *groups)
         self.direction=direction
         self.rect=pygame.rect.Rect(x,y,constants.BLOCK_SIZE, constants.BLOCK_SIZE)
-
+        self.color=color
     def change_direction(self, direction):
         self.direction=direction
     def move(self):
