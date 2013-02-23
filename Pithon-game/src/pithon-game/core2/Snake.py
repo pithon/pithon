@@ -4,7 +4,7 @@ class Snake:
     def __init__(self, name, x=0, y=0, image='core2/img/Part.bmp'):
         self.name=name
         self.image=image
-        head=Part(self.image, x, y)
+        head=Part(self.image, self, x, y)
         self.direction=constants.RIGHT
         self.parts=pygame.sprite.OrderedUpdates(head)
         self.do_extend = False
@@ -20,7 +20,7 @@ class Snake:
 
         if self.do_extend:
             last_part = self.parts.sprites()[-1]
-            new_part = Part(self.image, last_part.rect.x, last_part.rect.y, last_part.direction)
+            new_part = Part(self.image, self, last_part.rect.x, last_part.rect.y, last_part.direction)
 
 
         x, y  = self.parts.sprites()[0].rect.x, self.parts.sprites()[0].rect.y
@@ -49,6 +49,6 @@ class Snake:
 
     def extend(self):
         last_part = self.parts.sprites()[-1]
-        part = Part(self.image, last_part.rect.x, last_part.rect.y, last_part.direction)
+        part = Part(self.image, self, last_part.rect.x, last_part.rect.y, last_part.direction)
         self.parts.add(part)
 
