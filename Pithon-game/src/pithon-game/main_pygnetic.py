@@ -12,7 +12,10 @@ net.init(events=True)
 
 snake_msg = net.register('snake_msg', ('snake',))
 direction_msg = net.register('direction_msg', ('name', 'direction'))
-food_msg = net.register('food_msg', ('food',))
+new_food_msg = net.register('new_food_msg', ('food',))
+remove_food_msg = net.register('remove_food_msg', 'food_id')
+extend_msg = net.register('extend_msg')
+
 
 server = net.Server(port=31415)
 
@@ -47,20 +50,34 @@ while True:
         if event.type == net_events.NETWORK:
             if event.net_type == net_events.NET_CONNECTED:
                 print 'Connected'
-                event.connection.net_snake_msg((snake.name,))
+                for food in world.get_foods():
+                    event.connection.net_new_food_msg((food.rect.x, food.rect.y))
+                event.connection.net_snake_msg((snake.name, snake.head.rect.x, snake.head.rect.y))
             if event.net_type == net_events.NET_DISCONNECTED:
                 print 'Disconnected'
             if event.net_type == net_events.NET_RECEIVED:
                 if event.msg_type == snake_msg:
-                    world.add_player(Snake.Snake(*event.message.snake))
+                    world.add_player(Snake.Snake(*event.message.snake, connection=event.connection))
                 elif event.msg_type == direction_msg:
                     world.set_player_direction(event.message.name, event.message.direction)
 
     screen.fill((0,0,0))
     world.update_world()
+
+    for player in world.food_collide():
+        player.send(extend_msg)
+
+    for food in world.get_remove_foods():
+        for client in server.connections():
+            print "Id: ",food.id
+            client.net_remove_food_msg((food.id,))
+        food.kill()
+
     for food in world.make_foods():
         for client in server.connections():
-            client.net_food_msg((food.rect.x, food.rect.y))
+            print "Sending food"
+            client.net_new_food_msg((food.rect.x, food.rect.y))
+
     World.draw_world(world, screen)
     pygame.display.flip()
     server.update()

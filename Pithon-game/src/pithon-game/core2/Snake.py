@@ -1,14 +1,15 @@
 import pygame, constants
 from Part import Part
 class Snake:
-    def __init__(self, name, x=0, y=0, image='core2/img/Part.bmp'):
+    def __init__(self, name, x=0, y=0, image='core2/img/Part.bmp', connection=None):
         self.name=name
         self.image=image
-        head=Part(self.image, self, x, y)
+        self.head=Part(self.image, self, x, y)
         self.direction=constants.RIGHT
-        self.parts=pygame.sprite.OrderedUpdates(head)
+        self.parts=pygame.sprite.OrderedUpdates(self.head)
         self.do_extend = False
         self.hit_border = False
+        self.conn = connection
 
     def change_direction(self, direction):
         if direction in constants.VALID_DIRECTIONS[self.direction]:
@@ -46,6 +47,10 @@ class Snake:
         if self.do_extend:
             self.parts.add(new_part)
             self.do_extend = False
+
+    def send(self, msg, *args):
+        if self.conn:
+            self.conn.send(msg, *args)
 
     def extend(self):
         last_part = self.parts.sprites()[-1]

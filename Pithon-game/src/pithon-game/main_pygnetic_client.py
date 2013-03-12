@@ -15,7 +15,10 @@ net.init(events=True)
 
 snake_msg = net.register('snake_msg', ('snake',))
 direction_msg = net.register('direction_msg', ('name', 'direction'))
-food_msg = net.register('food_msg', ('food',))
+new_food_msg = net.register('new_food_msg', ('food',))
+remove_food_msg = net.register('remove_food_msg', 'food_id')
+extend_msg = net.register('extend_msg')
+
 
 client = net.Client()
 connection = client.connect("localhost", 31415)
@@ -26,7 +29,7 @@ world = World.World()
 snake = Snake.Snake("My snake")
 world.add_player(snake)
 
-connection.net_snake_msg((snake.name,))
+connection.net_snake_msg((snake.name, snake.head.rect.x, snake.head.rect.y))
 
 clock = Clock()
 
@@ -54,8 +57,14 @@ while True:
                     world.add_player(Snake.Snake(*event.message.snake))
                 elif event.msg_type == direction_msg:
                     world.set_player_direction(event.message.name, event.message.direction)
-                elif event.msg_type == food_msg:
+                elif event.msg_type == new_food_msg:
                     world.add_food(Food.Food(*event.message.food))
+                    print "Added food"
+                elif event.msg_type == remove_food_msg:
+                    world.remove_food(world.get_food(event.message.food_id[0]))
+                elif event.msg_type == extend_msg:
+                    snake.do_extend = True
+
 
 
     screen.fill((0,0,0))
@@ -64,5 +73,3 @@ while True:
     pygame.display.flip()
     client.update()
     clock.tick(10)
-
-

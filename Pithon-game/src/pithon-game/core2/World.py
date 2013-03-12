@@ -3,15 +3,27 @@ import pygame, Food, constants, random
 class World:
     def __init__(self):
         self.players={}
-        self.foods=pygame.sprite.Group()
+        self.foods=pygame.sprite.OrderedUpdates()
+        self.food_dict = {}
+        self.extend_snakes = set()
+        self.remove_foods = pygame.sprite.Group()
     def get_players(self):
         return self.players.values()
     def get_foods(self):
         return self.foods
+    def get_food(self, food_id):
+        return self.food_dict[food_id]
     def get_player_direction(self, player):
         return self.players[player].direction
+    def get_remove_foods(self):
+        return self.remove_foods
+
     def add_food(self, food):
         self.foods.add(food)
+        self.food_dict[food.id] = food
+    def remove_food(self, food):
+        self.foods.remove(food)
+        del self.food_dict[food.id]
     def add_player(self, player):
         self.players[player.name]=player
     def remove_player(self, player):
@@ -19,12 +31,8 @@ class World:
     def set_player_direction(self, player, direction):
         self.players[player].change_direction(direction)
     def update_world(self):
-        for k in self.players:
-            snake=self.players[k]
+        for snake in self.get_players():
             snake.update()
-
-            for s in pygame.sprite.groupcollide(pygame.sprite.Group((x.parts for x in self.get_players())), self.foods, False, True):
-                s.snake.do_extend = True
 
             collided = pygame.sprite.groupcollide(snake.parts, snake.parts, False, False)
             for key in collided:
@@ -33,6 +41,17 @@ class World:
 
             if snake.hit_border:
                 pass#print "You lose!"
+
+    def food_collide(self):
+        self.extend_snakes = set()
+        for snake in self.get_players():
+            foods = pygame.sprite.groupcollide(snake.parts, self.foods, False, False)
+            for s in foods:
+                s.snake.do_extend = True
+                self.extend_snakes.add(s.snake)
+                for f in foods[s]:
+                    self.remove_foods.add(f)
+        return self.extend_snakes
 
 
     def get_foods(self):
